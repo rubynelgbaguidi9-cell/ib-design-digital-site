@@ -76,6 +76,37 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
   revealItems.forEach((item) => item.classList.add('is-visible'));
 }
 
+// Donner un léger effet de profondeur à l’illustration de l’accueil sur ordinateur.
+const homeHero = document.querySelector('.page-index .hero');
+const heroArt = document.querySelector('.page-index .hero-art');
+const supportsPointerMotion = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (homeHero && heroArt && supportsPointerMotion) {
+  homeHero.addEventListener('pointermove', (event) => {
+    const heroBounds = homeHero.getBoundingClientRect();
+    homeHero.style.setProperty('--pointer-x', `${((event.clientX - heroBounds.left) / heroBounds.width) * 100}%`);
+    homeHero.style.setProperty('--pointer-y', `${((event.clientY - heroBounds.top) / heroBounds.height) * 100}%`);
+
+    if (!heroArt.contains(event.target)) {
+      heroArt.style.setProperty('--tilt-x', '0deg');
+      heroArt.style.setProperty('--tilt-y', '0deg');
+      return;
+    }
+
+    const artBounds = heroArt.getBoundingClientRect();
+    const horizontal = (event.clientX - artBounds.left) / artBounds.width - 0.5;
+    const vertical = (event.clientY - artBounds.top) / artBounds.height - 0.5;
+    heroArt.style.setProperty('--tilt-x', `${(vertical * -7).toFixed(2)}deg`);
+    heroArt.style.setProperty('--tilt-y', `${(horizontal * 9).toFixed(2)}deg`);
+  }, { passive: true });
+
+  heroArt.addEventListener('pointerleave', () => {
+    heroArt.style.setProperty('--tilt-x', '0deg');
+    heroArt.style.setProperty('--tilt-y', '0deg');
+  });
+}
+
 // Le bouton de retour en haut apparaît après le début du défilement.
 const backToTop = document.querySelector('.back-to-top');
 const updateBackToTop = () => {

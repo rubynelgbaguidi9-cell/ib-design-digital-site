@@ -4,6 +4,38 @@
   const assetUrl = (file) => new URL(file, scriptElement.src).href;
   const prefersLessMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Retire automatiquement les prix promotionnels à la fin des trois mois.
+  const promotionEndsAt = Date.parse('2027-02-15T00:00:00+01:00');
+  if (Date.now() >= promotionEndsAt) {
+    document.querySelectorAll('.promo-announcement').forEach((banner) => banner.remove());
+    document.querySelectorAll('.promo-rate').forEach((rate) => {
+      const regularPrice = rate.querySelector('del');
+      const salePrice = rate.querySelector('strong');
+      if (regularPrice && salePrice) {
+        salePrice.innerHTML = regularPrice.innerHTML;
+        regularPrice.replaceWith(salePrice);
+      }
+    });
+    document.querySelectorAll('.popular-tag').forEach((tag) => {
+      if (tag.textContent.includes('OFFRE')) tag.remove();
+    });
+    const pricingHeading = document.querySelector('.page-tarifs .section-heading');
+    if (pricingHeading) {
+      const eyebrow = pricingHeading.querySelector('.eyebrow');
+      const title = pricingHeading.querySelector('h1');
+      const description = pricingHeading.querySelector('p:last-child');
+      if (eyebrow) eyebrow.textContent = 'Des formules selon vos besoins';
+      if (title) title.textContent = 'Nos formules';
+      if (description) description.textContent = 'Chaque projet est unique. Contactez-nous pour un devis gratuit et personnalisé.';
+      pricingHeading.closest('main').querySelectorAll('.promo-pricing-grid a').forEach((link) => {
+        link.innerHTML = 'Demander un devis <span aria-hidden="true">↗</span>';
+        link.href = 'https://wa.me/2290162383722?text=Bonjour%20IB%20Design%20Digital%2C%20je%20souhaite%20un%20devis.';
+      });
+    }
+    const promoNote = document.querySelector('.promo-footnote');
+    if (promoNote) promoNote.textContent = 'Les prix affichés sont indicatifs. Le montant final est confirmé dans un devis personnalisé.';
+  }
+
   const spokenReplies = {
     welcome: 'Bonjour, je suis l’assistante virtuelle d’IB Design Digital. Je peux vous guider vers les visuels publicitaires, l’automatisation ou la création de sites web. Quel projet souhaitez-vous réaliser ?',
     visuals: 'Pour votre communication, nous pouvons créer trois choses : un logo ou une identité visuelle, un flyer ou des visuels pour les réseaux, ou une vidéo publicitaire avec l’intelligence artificielle. Que souhaitez-vous promouvoir ?',

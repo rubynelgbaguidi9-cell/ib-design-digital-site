@@ -355,3 +355,60 @@
   .ib-assistant-launcher .assistant-spark { animation: none !important; }
   .film-stage *, .film-player * { transition-duration: .01ms !important; }
 }
+
+/* Offre de lancement : annonce courte, visible sur toutes les pages. */
+.promo-announcement {
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px solid rgba(150, 152, 255, .2);
+  background: linear-gradient(100deg, rgba(92, 62, 171, .94), rgba(20, 116, 149, .9));
+  box-shadow: 0 8px 28px rgba(35, 27, 96, .2);
+}
+.promo-announcement-inner {
+  display: flex;
+  width: min(100% - 40px, 1240px);
+  min-height: 48px;
+  margin-inline: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  color: #f6f7ff;
+  text-align: center;
+  font-size: 12px;
+}
+.promo-tag {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+.promo-announcement p { margin: 0; }
+.promo-announcement a { color: #fff; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.promo-announcement a:hover { color: #bffff6; }
+.promo-pricing-grid { align-items: stretch; }
+.promo-rate {
+  display: grid;
+  gap: 3px;
+  margin: 17px 0 10px;
+  padding: 12px 13px;
+  border: 1px solid rgba(169, 155, 255, .2);
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(126, 103, 220, .13), rgba(74, 214, 211, .06));
+}
+.promo-rate-secondary { margin-top: 9px; background: rgba(255,255,255,.025); }
+.promo-rate-name { color: #d7d9ea; font-size: 11px; font-weight: 700; }
+.promo-rate del { color: #9699ac; font-size: 12px; text-decoration-thickness: 2px; }
+.promo-rate del small { font-size: 10px; }
+.promo-rate strong { color: #c8fff1; font-family: var(--font-heading); font-size: 21px; line-height: 1.1; }
+.promo-rate strong small { color: #a5e6e0; font-family: var(--font-body); font-size: 12px; }
+.promo-footnote { max-width: 900px; margin: 24px auto 0; color: #a9afc5; text-align: center; font-size: 11px; line-height: 1.65; }
+@media (max-width: 640px) {
+  .promo-announcement-inner { width: min(100% - 24px, 1240px); min-height: 48px; gap: 7px; font-size: 9px; }
+  .promo-tag { padding: 4px 6px; font-size: 7px; }
+  .promo-announcement a { font-size: 8px; white-space: nowrap; }
+  .promo-rate strong { font-size: 18px; }
+}

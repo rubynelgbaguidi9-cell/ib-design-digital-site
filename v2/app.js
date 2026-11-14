@@ -1,0 +1,12 @@
+(() => {
+  const menuButton=document.querySelector('.menu-toggle');
+  const nav=document.querySelector('.main-nav');
+  if(menuButton&&nav){menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')==='true';menuButton.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menuButton.setAttribute('aria-expanded','false');nav.classList.remove('open')}));document.addEventListener('keydown',e=>{if(e.key==='Escape'){menuButton.setAttribute('aria-expanded','false');nav.classList.remove('open')}})}
+  const items=document.querySelectorAll('.reveal');
+  if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');io.unobserve(entry.target)}}),{threshold:.12});items.forEach(el=>io.observe(el))}else items.forEach(el=>el.classList.add('visible'));
+  const filters=document.querySelectorAll('.filter-btn');
+  filters.forEach(btn=>btn.addEventListener('click',()=>{const selected=btn.dataset.filter;filters.forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});document.querySelectorAll('.portfolio-item').forEach(card=>card.hidden=selected!=='all'&&card.dataset.category!==selected)}));
+  const form=document.getElementById('contact-form');
+  if(form){const params=new URLSearchParams(location.search);const service=params.get('service');const select=form.querySelector('[name="service"]');if(service&&select){const match=[...select.options].find(o=>o.textContent.toLowerCase().includes(service.toLowerCase()));if(match)select.value=match.value}
+   form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const data=new FormData(form);const message=['Bonjour IB Design Digital, je souhaite demander un devis.','',`Nom : ${data.get('name')}`,`WhatsApp : ${data.get('phone')}`,`Service : ${data.get('service')}`,'',`Projet : ${data.get('message')}`].join('\n');const url='https://wa.me/2290162383722?text='+encodeURIComponent(message);const note=document.getElementById('form-note');note.textContent='Votre demande est prête. WhatsApp va s’ouvrir dans un nouvel onglet ; vérifiez puis envoyez votre message.';note.className='form-note success';window.open(url,'_blank','noopener,noreferrer')});}
+})();
